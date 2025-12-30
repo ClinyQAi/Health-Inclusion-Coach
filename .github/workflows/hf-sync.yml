@@ -3,8 +3,6 @@ name: Sync to Hugging Face Hub
 on:
   push:
     branches: [master]
-
-  # Allow manual trigger
   workflow_dispatch:
 
 jobs:
@@ -15,9 +13,12 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - name: Push to hub
+
+      - name: Push to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add space https://NurseCitizenDeveloper:$HF_TOKEN@huggingface.co/spaces/NurseCitizenDeveloper/Health-Inclusion-Coach
-          git push --force space master:main
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git remote set-url origin https://NurseCitizenDeveloper:${HF_TOKEN}@huggingface.co/spaces/NurseCitizenDeveloper/Health-Inclusion-Coach
+          git push origin master:main --force
