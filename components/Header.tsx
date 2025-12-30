@@ -6,9 +6,11 @@ interface HeaderProps {
     isThinkingMode: boolean;
     setIsThinkingMode: (isThinking: boolean) => void;
     onSettingsClick: () => void;
+    onScenariosClick: () => void;
+    activeView: 'chat' | 'scenarios' | 'settings';
 }
 
-export const Header: React.FC<HeaderProps> = ({ isThinkingMode, setIsThinkingMode, onSettingsClick }) => {
+export const Header: React.FC<HeaderProps> = ({ isThinkingMode, setIsThinkingMode, onSettingsClick, onScenariosClick, activeView }) => {
     return (
         <header className="w-full p-4">
             <div className="container mx-auto flex justify-between items-center">
@@ -21,6 +23,12 @@ export const Header: React.FC<HeaderProps> = ({ isThinkingMode, setIsThinkingMod
                     </h1>
                 </div>
                 <div className="flex items-center space-x-4">
+                    <button
+                        onClick={onScenariosClick}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeView === 'scenarios' ? 'bg-[#005EB8] text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+                    >
+                        Scenarios
+                    </button>
                     <ThinkingModeToggle isThinkingMode={isThinkingMode} setIsThinkingMode={setIsThinkingMode} />
                     <button
                         onClick={onSettingsClick}

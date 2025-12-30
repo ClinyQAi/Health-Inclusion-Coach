@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.local
+.git
+.github
+Dockerfile
+README.md
+LICENSE
+CONTRIBUTING.md
+.dockerignore

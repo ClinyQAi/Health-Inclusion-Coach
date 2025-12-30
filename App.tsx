@@ -5,6 +5,7 @@ import { Message, Author, GroundingSource } from './types';
 import { getChatResponseStream, getDeepDiveResponseStream } from './services/geminiService';
 import { LoginPage } from './components/LoginPage';
 import { SettingsPage } from './components/SettingsPage';
+import { ScenariosPage } from './components/ScenariosPage';
 
 const GREETING_MESSAGE: Message = {
     id: `greeting-${Date.now()}`,
@@ -19,7 +20,7 @@ const App: React.FC = () => {
     const [isThinkingMode, setIsThinkingMode] = useState(false);
     const [loadingState, setLoadingState] = useState<{ mode: 'chat' | 'deepDive' | null; fileName?: string }>({ mode: null });
 
-    const [page, setPage] = useState<'login' | 'chat' | 'settings'>('login');
+    const [page, setPage] = useState<'login' | 'chat' | 'settings' | 'scenarios'>('login');
     const [user, setUser] = useState<string | null>(null);
 
     useEffect(() => {
@@ -160,6 +161,18 @@ const App: React.FC = () => {
         }
     };
 
+    const handleStartScenario = (initialMessage: string) => {
+        // Clear chat and start a new simulation
+        const scenarioGreeting: Message = {
+            id: `scenario-${Date.now()}`,
+            author: Author.AI,
+            content: initialMessage,
+            feedback: null,
+        };
+        setMessages([scenarioGreeting]);
+        setPage('chat');
+    };
+
     const renderPage = () => {
         switch (page) {
             case 'login':
@@ -170,6 +183,8 @@ const App: React.FC = () => {
                     onLogout={handleLogout}
                     onClearHistory={handleClearHistory}
                 />;
+            case 'scenarios':
+                return <ScenariosPage onBack={() => setPage('chat')} onStartScenario={handleStartScenario} />;
             case 'chat':
             default:
                 return (
@@ -178,6 +193,8 @@ const App: React.FC = () => {
                             isThinkingMode={isThinkingMode}
                             setIsThinkingMode={setIsThinkingMode}
                             onSettingsClick={() => setPage('settings')}
+                            onScenariosClick={() => setPage('scenarios')}
+                            activeView={page}
                         />
                         <main className="flex-1 container mx-auto flex flex-col max-w-4xl w-full overflow-hidden">
                             <ChatWindow
