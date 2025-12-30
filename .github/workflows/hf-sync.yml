@@ -14,11 +14,10 @@ jobs:
           fetch-depth: 0
           lfs: true
 
-      - name: Install huggingface-cli
-        run: pip install huggingface_hub
-
-      - name: Upload to Hugging Face Space
+      - name: Install and upload to Hugging Face Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          pip install huggingface_hub
+          export PATH="$HOME/.local/bin:$PATH"
           huggingface-cli upload NurseCitizenDeveloper/Health-Inclusion-Coach . . --repo-type space
