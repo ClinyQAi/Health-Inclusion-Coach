@@ -1,3 +1,12 @@
+---
+title: Health Inclusion Coach
+emoji: 🏥
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # Health Inclusion Coach
 
 <div align="center">
